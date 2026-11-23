@@ -1,0 +1,48 @@
+name: Build ItemLock + Resourcepack
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Plugin bauen
+        run: mvn -B clean package
+
+      - name: Resourcepack zippen und SHA-1 berechnen
+        run: |
+          test -f resourcepack/pack.mcmeta
+          cd resourcepack
+          zip -qr ../ACI-Crystals-Sense-ResourcePack.zip .
+          cd ..
+          cp target/ItemLock-*.jar ItemLock.jar
+          echo "PACK_SHA1=$(sha1sum ACI-Crystals-Sense-ResourcePack.zip | cut -d' ' -f1)" >> "$GITHUB_ENV"
+
+      - name: Release veroeffentlichen
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          body: |
+            **Dateien**
+            - `ItemLock.jar` -> in den `plugins`-Ordner des Servers
+            - `ACI-Crystals-Sense-ResourcePack.zip` -> ACI-Kristalle + Sense-Textur
+
+            **SHA-1 des Resourcepacks:** `${{ env.PACK_SHA1 }}`
+          files: |
+            ItemLock.jar
+            ACI-Crystals-Sense-ResourcePack.zip
