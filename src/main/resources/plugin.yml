@@ -1,0 +1,22 @@
+name: ItemLock
+version: 1.0.0
+main: de.itemlock.ItemLockPlugin
+api-version: '26.2'
+description: Items serverweit sperren (Menue) + Sense (Axt/Schwert/Mace in einem)
+commands:
+  itemlock:
+    description: Menue zum Sperren/Freigeben von Items
+    usage: /itemlock [list|reload]
+    aliases: [il, sperre]
+    permission: itemlock.admin
+  sense:
+    description: Sense geben
+    usage: /sense give [spieler]
+    permission: itemlock.sense
+permissions:
+  itemlock.admin:
+    description: Items sperren und freigeben
+    default: op
+  itemlock.sense:
+    description: Sense per Befehl bekommen
+    default: op

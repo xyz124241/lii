@@ -1,0 +1,18 @@
+# Entfernt gesperrte Items zusaetzlich aus Spieler-Inventaren und Endertruhen (alle 2 Sekunden).
+remove-from-inventories: false
+
+# Items mit eigenen Daten (z.B. ACI-Items, die Sense) werden NIE gesperrt.
+protect-custom-items: true
+
+sense:
+  recipe-enabled: true
+  use-custom-model: true
+  smash-multiplier: 1.0
+  shield-cooldown-ticks: 100
+  smash-knockback: true
+
+resource-pack:
+  send-on-join: false
+  url: ""
+  sha1: ""
+  prompt: "&7Bitte das Sense-Resourcepack laden!"
